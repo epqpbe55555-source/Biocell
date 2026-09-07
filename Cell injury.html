@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Smart — Cell Injury, Adaptation &amp; Cell Death</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF7F1;
+    --paper:#FFFFFF;
+    --ink:#221C2E;
+    --ink-soft:#5B5570;
+    --line:#E5DFD2;
+    --plum:#8C3061;
+    --plum-deep:#4F1935;
+    --plum-pale:#F4E4EC;
+    --teal:#2E6E62;
+    --teal-deep:#1C453D;
+    --teal-pale:#E3EFEA;
+    --amber:#C98A3D;
+    --amber-pale:#F7EAD5;
+    --radius-s:6px;
+    --radius-m:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  h1,h2,h3,h4{font-family:'Fraunces',serif; margin:0; color:var(--plum-deep);}
+  p{line-height:1.55;}
+  ::selection{background:var(--plum-pale);}
+
+  /* ---------- header ---------- */
+  header.top{
+    background:linear-gradient(180deg,#fff, #fdfbf7 70%, transparent);
+    border-bottom:1px solid var(--line);
+    padding:30px 5vw 18px;
+  }
+  .top-inner{
+    max-width:1180px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  }
+  .brandmark{display:flex;align-items:center;gap:16px;}
+  .cellmark{width:52px;height:52px;flex:none;}
+  .brand-title{font-size:clamp(2rem,4vw,2.9rem);font-weight:600;font-style:italic;letter-spacing:-0.01em;line-height:1;}
+  .brand-sub{font-family:'Inter';color:var(--ink-soft);font-size:0.95rem;margin-top:6px;max-width:46ch;}
+  .credit{
+    font-size:0.78rem;color:var(--ink-soft);text-align:right;
+    border-left:1px solid var(--line);padding-left:16px;
+  }
+  .credit b{color:var(--plum);font-weight:700;}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:30;
+    background:rgba(250,247,241,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .tabs-inner{
+    max-width:1180px;margin:0 auto;padding:0 5vw;
+    display:flex;gap:2px;overflow-x:auto;
+  }
+  .tab-btn{
+    appearance:none;border:none;background:transparent;cursor:pointer;
+    font-family:'Inter';font-weight:600;font-size:0.92rem;color:var(--ink-soft);
+    padding:16px 18px 13px;white-space:nowrap;border-bottom:3px solid transparent;
+    transition:color .15s ease;
+  }
+  .tab-btn:hover{color:var(--plum);}
+  .tab-btn.active{color:var(--plum-deep);border-bottom-color:var(--plum);}
+  .tab-btn .n{
+    display:inline-block;font-size:.68rem;font-weight:700;color:var(--teal);
+    background:var(--teal-pale);border-radius:20px;padding:1px 7px;margin-left:7px;
+  }
+
+  main{max-width:1180px;margin:0 auto;padding:36px 5vw 80px;}
+  section.panel{display:none;animation:fade .35s ease;}
+  section.panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .section-head{margin-bottom:22px;}
+  .section-head h2{font-size:1.7rem;font-weight:600;}
+  .section-head p{color:var(--ink-soft);max-width:64ch;margin-top:6px;font-size:0.95rem;}
+
+  /* ---------- OVERVIEW ---------- */
+  .stat-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .stat-tag{
+    border:1px solid var(--line);background:var(--paper);border-radius:999px;
+    padding:7px 16px;font-size:0.82rem;color:var(--ink-soft);
+  }
+  .stat-tag b{color:var(--plum-deep);font-family:'Fraunces';font-weight:600;}
+
+  .law-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px;}
+  .law-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);
+    padding:18px 18px 16px;
+  }
+  .law-card h3{font-size:1.02rem;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+  .law-card .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .law-card ul{margin:0;padding-left:18px;font-size:0.86rem;color:var(--ink);}
+  .law-card li{margin-bottom:5px;}
+  .law-card li:last-child{margin-bottom:0;}
+  .law-card li b{color:var(--plum);}
+
+  /* ---------- DIAGRAMS ---------- */
+  .diagram-block{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);
+    padding:22px 22px 24px;margin-bottom:22px;
+  }
+  .diagram-block h3{font-size:1.15rem;margin-bottom:4px;}
+  .diagram-block .hint{color:var(--ink-soft);font-size:0.82rem;margin-bottom:16px;}
+
+  /* adaptation explorer */
+  .adapt-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .adapt-btn{
+    border:1px solid var(--line);background:#fff;border-radius:var(--radius-s);
+    padding:10px 14px;cursor:pointer;font-family:'Inter';font-weight:600;font-size:0.85rem;color:var(--ink);
+    display:flex;align-items:center;gap:8px;transition:.15s;
+  }
+  .adapt-btn:hover{border-color:var(--plum);}
+  .adapt-btn.active{background:var(--plum);color:#fff;border-color:var(--plum);}
+  .adapt-visual-wrap{
+    display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:center;
+    background:var(--plum-pale);border-radius:var(--radius-m);padding:20px;
+  }
+  .cellstage{height:110px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;}
+  .cellstage .c{border-radius:50%;background:var(--plum);transition:all .4s ease;}
+  .adapt-detail h4{font-size:1.05rem;margin-bottom:6px;color:var(--plum-deep);}
+  .adapt-detail p{font-size:0.88rem;color:var(--ink);margin:0 0 8px;}
+  .adapt-detail .ex{font-size:0.82rem;color:var(--teal-deep);background:var(--teal-pale);display:inline-block;padding:4px 10px;border-radius:6px;}
+
+  /* necrosis gallery */
+  .necro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .necro-tile{
+    border:1px solid var(--line);border-radius:var(--radius-s);padding:14px 12px;cursor:pointer;
+    background:#fff;text-align:left;font-family:'Inter';transition:.15s;
+  }
+  .necro-tile:hover{border-color:var(--teal);}
+  .necro-tile.active{background:var(--teal);border-color:var(--teal);}
+  .necro-tile.active .t-name{color:#fff;}
+  .necro-tile .t-name{font-weight:700;font-size:0.88rem;color:var(--ink);}
+  .necro-tile .t-sub{font-size:0.72rem;color:var(--ink-soft);margin-top:2px;}
+  .necro-tile.active .t-sub{color:var(--teal-pale);}
+  .necro-detail{
+    margin-top:16px;background:var(--teal-pale);border-radius:var(--radius-m);padding:18px 20px;
+  }
+  .necro-detail h4{color:var(--teal-deep);font-size:1.05rem;margin-bottom:8px;}
+  .necro-detail .lbl{font-weight:700;color:var(--teal-deep);font-size:0.78rem;text-transform:uppercase;letter-spacing:.03em;margin-top:10px;display:block;}
+  .necro-detail p{font-size:0.87rem;margin:4px 0 0;}
+
+  /* nuclear stepper */
+  .stepper-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .step-btn{
+    border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;
+    cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--ink-soft);
+  }
+  .step-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .nucleus-stage{
+    height:150px;display:flex;align-items:center;justify-content:center;gap:14px;
+    background:var(--amber-pale);border-radius:var(--radius-m);
+  }
+  .nuc{background:var(--plum-deep);border-radius:50%;transition:all .5s ease;}
+  .step-caption{margin-top:14px;font-size:0.88rem;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius-s);padding:12px 16px;}
+
+  /* apoptosis stepper */
+  .apop-stage{
+    background:var(--teal-pale);border-radius:var(--radius-m);padding:26px;
+    display:flex;flex-direction:column;align-items:center;gap:16px;min-height:190px;justify-content:center;
+  }
+  .apop-cell{display:flex;gap:5px;align-items:center;justify-content:center;height:70px;}
+  .apop-cell .blob{background:var(--teal-deep);border-radius:50%;transition:all .5s ease;}
+  .apop-nav{display:flex;align-items:center;gap:14px;margin-top:16px;}
+  .apop-nav button{
+    border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;
+    padding:8px 18px;cursor:pointer;font-weight:600;font-size:0.82rem;
+  }
+  .apop-nav button:disabled{opacity:.35;cursor:not-allowed;}
+  .apop-dots{display:flex;gap:6px;}
+  .apop-dots span{width:8px;height:8px;border-radius:50%;background:var(--line);}
+  .apop-dots span.on{background:var(--teal);}
+  .apop-caption{text-align:center;font-size:0.88rem;max-width:52ch;}
+  .apop-caption b{color:var(--teal-deep);}
+
+  /* toggle table */
+  .toggle-row{display:flex;gap:8px;margin-bottom:14px;}
+  .tg-btn{border:1px solid var(--line);background:#fff;border-radius:var(--radius-s);padding:7px 14px;cursor:pointer;font-size:0.82rem;font-weight:600;}
+  .tg-btn.active{background:var(--plum);color:#fff;border-color:var(--plum);}
+  table.cmp{width:100%;border-collapse:collapse;font-size:0.85rem;}
+  table.cmp th{text-align:left;font-family:'Fraunces';font-weight:600;color:var(--plum-deep);padding:9px 12px;border-bottom:2px solid var(--line);}
+  table.cmp td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.cmp td.necro-col{background:var(--plum-pale);}
+  table.cmp td.apop-col{background:var(--teal-pale);}
+  table.cmp tr:hover td{filter:brightness(0.97);}
+
+  /* accordion */
+  .acc-item{border:1px solid var(--line);border-radius:var(--radius-s);margin-bottom:8px;overflow:hidden;}
+  .acc-head{
+    width:100%;background:#fff;border:none;padding:13px 16px;text-align:left;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.9rem;
+  }
+  .acc-head .plus{color:var(--plum);font-size:1.1rem;transition:transform .2s;}
+  .acc-item.open .plus{transform:rotate(45deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .25s ease;background:var(--amber-pale);}
+  .acc-item.open .acc-body{max-height:400px;}
+  .acc-body-inner{padding:14px 16px;font-size:0.85rem;}
+  .acc-body-inner div{margin-bottom:6px;}
+  .acc-body-inner b{color:var(--plum-deep);}
+
+  /* telomere */
+  .telo-wrap{display:flex;gap:26px;flex-wrap:wrap;align-items:center;}
+  .telo-track{display:flex;gap:20px;}
+  .telo-bar{width:26px;background:var(--teal);border-radius:6px;transition:height .4s ease;position:relative;}
+  .telo-tip{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:var(--amber);}
+  .telo-labels{display:flex;gap:20px;margin-top:8px;}
+  .telo-labels span{width:26px;text-align:center;font-size:0.68rem;color:var(--ink-soft);}
+  .telo-controls{display:flex;flex-direction:column;gap:10px;}
+  .telo-controls button{
+    border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;
+    padding:9px 18px;cursor:pointer;font-weight:600;font-size:0.83rem;
+  }
+  .telo-note{font-size:0.85rem;max-width:40ch;color:var(--ink-soft);}
+
+  /* ---------- MINI MAP ---------- */
+  .map-wrap{display:grid;grid-template-columns:280px 1fr;gap:20px;}
+  @media (max-width:780px){.map-wrap{grid-template-columns:1fr;}}
+  .map-list{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);
+    padding:8px;max-height:640px;overflow-y:auto;
+  }
+  .map-item{
+    width:100%;text-align:left;border:none;background:transparent;cursor:pointer;
+    padding:11px 14px;border-radius:var(--radius-s);font-family:'Inter';font-size:0.87rem;font-weight:600;
+    color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:8px;
+  }
+  .map-item:hover{background:var(--plum-pale);}
+  .map-item.active{background:var(--plum);color:#fff;}
+  .map-item .tag{font-size:0.66rem;font-weight:700;color:var(--teal);background:var(--teal-pale);padding:1px 7px;border-radius:20px;flex:none;}
+  .map-item.active .tag{background:rgba(255,255,255,.25);color:#fff;}
+  .map-panel{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);
+    padding:26px 28px;min-height:420px;position:sticky;top:76px;align-self:start;
+  }
+  .map-panel .placeholder{color:var(--ink-soft);font-size:0.92rem;padding-top:40px;text-align:center;}
+  .map-panel h3{font-size:1.3rem;margin-bottom:14px;}
+  .map-panel .body p, .map-panel .body li{font-size:0.92rem;line-height:1.65;}
+  .map-panel .body ul{padding-left:20px;}
+  .map-panel .body b{color:var(--plum);}
+
+  /* ---------- FLASHCARDS ---------- */
+  .fc-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .fc-toolbar button{
+    border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;
+    padding:9px 18px;cursor:pointer;font-weight:600;font-size:0.83rem;
+  }
+  .fc-count{font-size:0.85rem;color:var(--ink-soft);}
+  .fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+  .fc-card{
+    perspective:1200px;height:170px;cursor:pointer;
+  }
+  .fc-inner{
+    position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;
+  }
+  .fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+  .fc-face{
+    position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius-m);
+    padding:16px;display:flex;align-items:center;justify-content:center;text-align:center;
+    font-size:0.88rem;border:1px solid var(--line);
+  }
+  .fc-front{background:var(--paper);color:var(--ink);font-weight:600;}
+  .fc-back{background:var(--plum);color:#fff;transform:rotateY(180deg);font-weight:500;}
+  .fc-face .k{position:absolute;bottom:10px;right:14px;font-size:0.65rem;opacity:.6;}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-wrap{max-width:660px;margin:0 auto;}
+  .quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:0.83rem;color:var(--ink-soft);}
+  .quiz-bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:26px;}
+  .quiz-bar-fill{height:100%;background:var(--plum);width:0%;transition:width .3s;}
+  .quiz-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);padding:26px;}
+  .quiz-q{font-family:'Fraunces';font-size:1.15rem;font-weight:600;margin-bottom:18px;color:var(--plum-deep);}
+  .quiz-opt{
+    display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;
+    border-radius:var(--radius-s);padding:12px 16px;margin-bottom:10px;cursor:pointer;
+    font-size:0.9rem;font-family:'Inter';transition:.15s;
+  }
+  .quiz-opt:hover{border-color:var(--plum);}
+  .quiz-opt.correct{background:var(--teal-pale);border-color:var(--teal);color:var(--teal-deep);font-weight:600;}
+  .quiz-opt.wrong{background:#FBE7E4;border-color:#C0503E;color:#8A362A;font-weight:600;}
+  .quiz-opt.disabled{pointer-events:none;}
+  .quiz-next{
+    margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;
+    padding:10px 22px;cursor:pointer;font-weight:600;font-size:0.86rem;display:none;
+  }
+  .quiz-result{text-align:center;padding:40px 20px;}
+  .quiz-result .score{font-family:'Fraunces';font-size:3rem;font-weight:600;color:var(--plum);}
+  .quiz-result p{color:var(--ink-soft);margin:8px 0 24px;}
+  .quiz-result button{
+    border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;
+    padding:10px 22px;cursor:pointer;font-weight:600;font-size:0.86rem;
+  }
+
+  footer.site{
+    border-top:1px solid var(--line);padding:22px 5vw;text-align:center;
+    font-size:0.78rem;color:var(--ink-soft);background:var(--paper);
+  }
+  footer.site b{color:var(--plum-deep);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brandmark">
+      <svg class="cellmark" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="26" fill="#F4E4EC" stroke="#8C3061" stroke-width="2"/>
+        <circle cx="24" cy="24" r="9" fill="#8C3061"/>
+        <circle cx="38" cy="20" r="3" fill="#2E6E62"/>
+        <circle cx="41" cy="35" r="3.5" fill="#2E6E62"/>
+        <circle cx="20" cy="40" r="2.5" fill="#C98A3D"/>
+      </svg>
+      <div>
+        <h1 class="brand-title">Study Smart</h1>
+        <div class="brand-sub">A working reference for Cell Injury, Adaptation &amp; Cell Death — built to review, not to reread a lecture.</div>
+      </div>
+    </div>
+    <div class="credit">© 2026 <b>Anmar Taha</b><br>All rights reserved</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner" id="tabsInner">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="diagrams">Diagrams</button>
+    <button class="tab-btn" data-tab="map">Concept Map</button>
+    <button class="tab-btn" data-tab="cards">Flash Cards</button>
+    <button class="tab-btn" data-tab="quiz">Quiz Bank <span class="n" id="quizCountTag">34</span></button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <section class="panel active" id="panel-overview">
+    <div class="section-head">
+      <h2>Key facts, not a lecture</h2>
+      <p>Every definition, cause list, and classification, reduced to what you actually need to recall.</p>
+    </div>
+
+    <div class="stat-strip">
+      <span class="stat-tag"><b>5</b>&nbsp; forms of adaptation</span>
+      <span class="stat-tag"><b>2</b>&nbsp; correlates of reversible injury</span>
+      <span class="stat-tag"><b>6</b>&nbsp; types of necrosis</span>
+      <span class="stat-tag"><b>2</b>&nbsp; apoptosis pathways</span>
+      <span class="stat-tag"><b>2</b>&nbsp; types of pathologic calcification</span>
+    </div>
+
+    <div class="law-grid" id="overviewGrid"></div>
+  </section>
+
+  <!-- ===================== DIAGRAMS ===================== -->
+  <section class="panel" id="panel-diagrams">
+    <div class="section-head">
+      <h2>Every diagram, made to click through</h2>
+      <p>The figures from the lecture, rebuilt so you can walk each process step by step instead of staring at one static picture.</p>
+    </div>
+
+    <!-- adaptation explorer -->
+    <div class="diagram-block">
+      <h3>Cellular Adaptation Explorer</h3>
+      <div class="hint">Select a form of adaptation to see how the cell changes, and why.</div>
+      <div class="adapt-row" id="adaptRow"></div>
+      <div class="adapt-visual-wrap">
+        <div class="cellstage" id="cellStage"></div>
+        <div class="adapt-detail" id="adaptDetail"></div>
+      </div>
+    </div>
+
+    <!-- necrosis gallery -->
+    <div class="diagram-block">
+      <h3>Necrosis Type Gallery</h3>
+      <div class="hint">Six patterns, one cause and one look each. Click a tile.</div>
+      <div class="necro-grid" id="necroGrid"></div>
+      <div class="necro-detail" id="necroDetail"></div>
+    </div>
+
+    <!-- nuclear change stepper -->
+    <div class="diagram-block">
+      <h3>Nuclear Breakdown in Necrosis</h3>
+      <div class="hint">Step through what happens to the nucleus as DNA and chromatin break down.</div>
+      <div class="stepper-row" id="nucSteps"></div>
+      <div class="nucleus-stage" id="nucStage"></div>
+      <div class="step-caption" id="nucCaption"></div>
+    </div>
+
+    <!-- apoptosis process -->
+    <div class="diagram-block">
+      <h3>Apoptosis, Step by Step</h3>
+      <div class="hint">The programmed sequence from a normal cell to phagocytosed apoptotic bodies.</div>
+      <div class="apop-stage">
+        <div class="apop-cell" id="apopCell"></div>
+        <div class="apop-caption" id="apopCaption"></div>
+      </div>
+      <div class="apop-nav">
+        <button id="apopPrev">◂ Back</button>
+        <div class="apop-dots" id="apopDots"></div>
+        <button id="apopNext">Next ▸</button>
+      </div>
+    </div>
+
+    <!-- necrosis vs apoptosis -->
+    <div class="diagram-block">
+      <h3>Necrosis vs. Apoptosis</h3>
+      <div class="hint">Toggle a column, or view both side by side.</div>
+      <div class="toggle-row" id="cmpToggle">
+        <button class="tg-btn active" data-show="both">Both</button>
+        <button class="tg-btn" data-show="necrosis">Necrosis only</button>
+        <button class="tg-btn" data-show="apoptosis">Apoptosis only</button>
+      </div>
+      <table class="cmp" id="cmpTable"></table>
+    </div>
+
+    <!-- calcification accordion -->
+    <div class="diagram-block">
+      <h3>Dystrophic vs. Metastatic Calcification</h3>
+      <div class="hint">Click a feature row to expand the comparison.</div>
+      <div id="accWrap"></div>
+    </div>
+
+    <!-- telomere -->
+    <div class="diagram-block">
+      <h3>Ageing: The Telomere Hypothesis</h3>
+      <div class="hint">Each replication shortens the telomere a little more, until the cell can no longer safely divide.</div>
+      <div class="telo-wrap">
+        <div>
+          <div class="telo-track" id="teloTrack"></div>
+          <div class="telo-labels"><span>Normal</span><span>Shortened</span><span>Critical</span></div>
+        </div>
+        <div class="telo-controls">
+          <button id="teloStep">Simulate replication</button>
+          <button id="teloReset" style="background:#fff;color:var(--ink);border-color:var(--line);">Reset</button>
+        </div>
+        <div class="telo-note" id="teloNote">Telomeres shorten with every division because the ends are not fully replaced. Eventually, division stops or the cell dies — one proposed driver of ageing, alongside oxidative stress, hormonal decline, defective host defense, and failure to renew old cells.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT MAP ===================== -->
+  <section class="panel" id="panel-map">
+    <div class="section-head">
+      <h2>Concept Map</h2>
+      <p>Click a topic on the left. The full explanation opens on the right, in this same view.</p>
+    </div>
+    <div class="map-wrap">
+      <div class="map-list" id="mapList"></div>
+      <div class="map-panel" id="mapPanel">
+        <div class="placeholder">Select a topic to open it here.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FLASH CARDS ===================== -->
+  <section class="panel" id="panel-cards">
+    <div class="section-head">
+      <h2>Flash Cards</h2>
+      <p>Click a card to flip it. Covers adaptation, injury, pigments, necrosis, apoptosis, and calcification.</p>
+    </div>
+    <div class="fc-toolbar">
+      <span class="fc-count" id="fcCount"></span>
+      <button id="fcShuffle">Shuffle</button>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="panel" id="panel-quiz">
+    <div class="section-head">
+      <h2>Quiz Bank</h2>
+      <p>Answer choices are reshuffled every time you take the quiz.</p>
+    </div>
+    <div class="quiz-wrap">
+      <div class="quiz-top">
+        <span id="quizProgressText">Question 1 of 34</span>
+        <span id="quizScoreText">Score: 0</span>
+      </div>
+      <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill"></div></div>
+      <div class="quiz-card" id="quizCard"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  Study Smart — Cell Injury, Adaptation &amp; Cell Death &nbsp;·&nbsp; © 2026 <b>Anmar Taha</b>. All rights reserved.
+</footer>
+
+<script>
+/* ============================================================
+   TAB SWITCHING
+============================================================ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ============================================================
+   OVERVIEW DATA
+============================================================ */
+const overviewData = [
+  {title:'Adaptations', color:'#8C3061', items:[
+    '<b>Reversible</b> changes in number, size, phenotype, metabolism, or function in response to the environment.',
+    'Physiologic = response to normal hormonal/chemical stimulation.',
+    'Pathologic = response to stress that lets the cell escape injury.',
+    'Five forms: <b>atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia</b>.'
+  ]},
+  {title:'Hypertrophy', color:'#8C3061', items:[
+    '<b>Increase in cell size</b> → organ enlargement, no change in cell number.',
+    'Physiologic: pregnant uterus.',
+    'Pathologic: cardiac hypertrophy, smooth-muscle hypertrophy (achalasia, pyloric stenosis, hypertensive arteries), athlete skeletal muscle, compensatory hypertrophy after nephrectomy.'
+  ]},
+  {title:'Hyperplasia', color:'#8C3061', items:[
+    '<b>Increase in cell number</b> from G0 recruitment into mitosis.',
+    'Only <b>labile</b> and <b>stable</b> cells can do this — <b>permanent</b> cells (neurons, cardiac &amp; skeletal muscle) cannot.',
+    'Physiologic: hormonal (breast, endometrium) and compensatory (liver regeneration).',
+    'Pathologic: estrogen-driven endometrial hyperplasia, prostatic hyperplasia.'
+  ]},
+  {title:'Metaplasia &amp; Dysplasia', color:'#8C3061', items:[
+    'Metaplasia: reversible switch of one adult cell type to another, e.g. bronchial columnar → squamous in smokers.',
+    'Persistent stimulus → metaplasia can progress to <b>dysplasia</b> → cancer.',
+    'Dysplasia: disordered architecture, loss of basal polarity, pleomorphism, high N:C ratio, hyperchromatism, high mitotic activity.'
+  ]},
+  {title:'Reversible Injury', color:'#2E6E62', items:[
+    'Two morphologic correlates: <b>cellular swelling</b> (failed ion pumps) and <b>fatty change</b> (lipid vacuoles).',
+    'Forms: hydropic, hyaline, mucoid, fatty change.',
+    'Injury targets: mitochondria, cell membrane, ribosomes, cytoskeleton, nuclear DNA.'
+  ]},
+  {title:'Fatty Change', color:'#2E6E62', items:[
+    'Triglyceride accumulation in liver, heart, or kidney.',
+    'Causes of fatty liver: alcohol, diabetes, malnutrition, obesity, poisoning.',
+    'Mechanisms: ↑ uptake, ↓ use, ↑ production, ↓ secretion of fat.'
+  ]},
+  {title:'Pigments', color:'#2E6E62', items:[
+    'Endogenous: melanin, hemosiderin, bilirubin, porphyrins, lipofuscin (wear-and-tear pigment).',
+    'Exogenous: inhaled, ingested, injected (tattoo).',
+    '↑ melanin: sun tanning, nevus, melanoma. ↓ melanin: albinism, vitiligo.',
+    'Hemosiderin = iron store from ferritin; excess in certain diseases.'
+  ]},
+  {title:'Necrosis — general', color:'#C98A3D', items:[
+    'Localized tissue death + enzymatic degradation, always with inflammation.',
+    'Nuclear sequence: <b>pyknosis → karyorrhexis → karyolysis</b>.',
+    'Six patterns: coagulative, liquefactive, caseous, fat, fibrinoid, gangrenous.'
+  ]},
+  {title:'Necrosis — patterns', color:'#C98A3D', items:[
+    'Coagulative: architecture preserved (infarcts) — tombstone cells.',
+    'Liquefactive: bacterial/fungal infection or hypoxic brain injury.',
+    'Caseous: TB — cheese-like, granulomatous rim.',
+    'Fat: pancreatitis — chalky calcium soaps.',
+    'Fibrinoid: immune injury to vessel walls.',
+    'Gangrenous: dry (coagulative) vs wet (+ liquefactive infection).'
+  ]},
+  {title:'Apoptosis', color:'#C98A3D', items:[
+    'Programmed, regulated cell "suicide" — no inflammation, no collateral damage.',
+    'Two pathways: <b>mitochondrial (intrinsic)</b> and <b>death receptor (extrinsic)</b>.',
+    'Intrinsic triggers: lost survival signals, unrepairable DNA damage, ER stress.',
+    'Extrinsic: TNF-family death receptors engaged by ligands — clears self-reactive lymphocytes and infected cells.'
+  ]},
+  {title:'Calcification', color:'#8C3061', items:[
+    '<b>Dystrophic</b>: in necrotic/damaged tissue, normal serum calcium.',
+    '<b>Metastatic</b>: in normal tissue, driven by hypercalcemia (↑PTH, bone destruction, vitamin D disorders, renal failure).',
+    'Metastatic is usually reversible once the metabolic cause is corrected.'
+  ]},
+  {title:'Ageing', color:'#2E6E62', items:[
+    'Depends on genetic, environmental, lifestyle, and disease factors.',
+    'Hypotheses: telomere shortening, oxidative stress, hormonal decline, defective host defense, failure to renew cells.',
+    'Affects cardiovascular, nervous, musculoskeletal, sensory, immune, and skin systems.'
+  ]},
+];
+const grid = document.getElementById('overviewGrid');
+overviewData.forEach(c=>{
+  const el = document.createElement('div');
+  el.className='law-card';
+  el.innerHTML = `<h3><span class="dot" style="background:${c.color}"></span>${c.title}</h3><ul>${c.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  grid.appendChild(el);
+});
+
+/* ============================================================
+   ADAPTATION EXPLORER
+============================================================ */
+const adaptations = [
+  {key:'atrophy', label:'Atrophy', cells:[{s:26}], detail:'Decrease in cell size and function — the cell shrinks to survive reduced demand or supply.', example:'Disuse, denervation, reduced blood supply, aging.'},
+  {key:'hypertrophy', label:'Hypertrophy', cells:[{s:92}], detail:'Increase in the <b>size</b> of parenchymal cells, enlarging the organ, with no change in cell number.', example:'Pregnant uterus · cardiac hypertrophy in hypertension · athlete skeletal muscle.'},
+  {key:'hyperplasia', label:'Hyperplasia', cells:[{s:34},{s:34},{s:34},{s:34}], detail:'Increase in the <b>number</b> of parenchymal cells, from G0-phase cells re-entering mitosis. Only labile &amp; stable cells qualify.', example:'Breast at puberty/pregnancy · liver regeneration after hepatectomy.'},
+  {key:'metaplasia', label:'Metaplasia', cells:[{s:70,shape:'50% 10% / 50% 10%'}], detail:'Reversible replacement of one adult cell type by another, usually to withstand an abnormal stimulus.', example:'Bronchial columnar epithelium → squamous epithelium in smokers.'},
+  {key:'dysplasia', label:'Dysplasia', cells:[{s:40,irr:true},{s:26,irr:true},{s:52,irr:true}], detail:'Disordered cell growth: variable size, shape and arrangement, loss of architecture — often from chronic irritation.', example:'May progress toward neoplasia if the stimulus persists.'},
+];
+const adaptRow = document.getElementById('adaptRow');
+const cellStage = document.getElementById('cellStage');
+const adaptDetail = document.getElementById('adaptDetail');
+function renderAdapt(key){
+  const a = adaptations.find(x=>x.key===key);
+  document.querySelectorAll('.adapt-btn').forEach(b=>b.classList.toggle('active', b.dataset.key===key));
+  cellStage.innerHTML='';
+  a.cells.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='c';
+    d.style.width=c.s+'px'; d.style.height=c.s+'px';
+    if(c.irr){ d.style.borderRadius= (30+Math.random()*40)+'% '+(30+Math.random()*40)+'% '+(30+Math.random()*40)+'% '+(30+Math.random()*40)+'%'; d.style.background = Math.random()>0.5 ? 'var(--plum)' : 'var(--amber)';}
+    if(c.shape) d.style.borderRadius = c.shape;
+    cellStage.appendChild(d);
+  });
+  adaptDetail.innerHTML = `<h4>${a.label}</h4><p>${a.detail}</p><span class="ex">${a.example}</span>`;
+}
+adaptations.forEach((a,i)=>{
+  const b=document.createElement('button');
+  b.className='adapt-btn'; b.dataset.key=a.key; b.textContent=a.label;
+  b.addEventListener('click',()=>renderAdapt(a.key));
+  adaptRow.appendChild(b);
+});
+renderAdapt('atrophy');
+
+/* ============================================================
+   NECROSIS GALLERY
+============================================================ */
+const necroTypes = [
+  {key:'coag', name:'Coagulative', sub:'Ischemia / infarct',
+    gross:'Pale, firm, slightly swollen early (an "infarct"); later more yellowish, softer, and shrunken.',
+    micro:'Cell outlines preserved as "tombstones"; cytoplasmic/nuclear detail lost; pyknosis, karyorrhexis, karyolysis — but no liquefaction.'},
+  {key:'liq', name:'Liquefactive', sub:'Bacterial / fungal infection, CNS hypoxia',
+    gross:'Tissue is digested into a soft, liquid mass.',
+    micro:'Leukocyte enzymes "liquefy" the tissue; also seen in hypoxic death of CNS cells.'},
+  {key:'case', name:'Caseous', sub:'Tuberculous infection',
+    gross:'Soft, granular, yellowish — resembles dry cheese.',
+    micro:'Structureless eosinophilic debris; surrounded by epithelioid cells, Langhans and foreign-body giant cells, and a lymphocyte mantle (granulomatous reaction).'},
+  {key:'fat', name:'Fat necrosis', sub:'Acute pancreatitis',
+    gross:'Yellowish-white firm deposits; calcium soaps give a chalky-white appearance.',
+    micro:'Activated pancreatic lipases destroy fat in the pancreas and peritoneal cavity.'},
+  {key:'fib', name:'Fibrinoid', sub:'Immune injury to vessels',
+    gross:'Affects blood vessel walls in immune reactions.',
+    micro:'Bright eosinophilic, hyaline-like deposit in the vessel wall; surrounding neutrophil debris (leucocytoclasis); local hemorrhage may occur.'},
+  {key:'gang', name:'Gangrenous', sub:'Not a distinct pattern — clinical term',
+    gross:'Applied to a limb that has lost its blood supply.',
+    micro:'Dry gangrene = coagulative necrosis across tissue layers. Wet gangrene = same, plus liquefactive change from superimposed bacterial infection.'},
+];
+const necroGrid = document.getElementById('necroGrid');
+const necroDetail = document.getElementById('necroDetail');
+function renderNecro(key){
+  const t = necroTypes.find(x=>x.key===key);
+  document.querySelectorAll('.necro-tile').forEach(el=>el.classList.toggle('active', el.dataset.key===key));
+  necroDetail.innerHTML = `<h4>${t.name} necrosis</h4>
+    <span class="lbl">Grossly</span><p>${t.gross}</p>
+    <span class="lbl">Microscopically</span><p>${t.micro}</p>`;
+}
+necroTypes.forEach(t=>{
+  const el=document.createElement('button');
+  el.className='necro-tile'; el.dataset.key=t.key;
+  el.innerHTML=`<div class="t-name">${t.name}</div><div class="t-sub">${t.sub}</div>`;
+  el.addEventListener('click',()=>renderNecro(t.key));
+  necroGrid.appendChild(el);
+});
+renderNecro('coag');
+
+/* ============================================================
+   NUCLEAR STEPPER
+============================================================ */
+const nucSteps = [
+  {key:'normal', label:'Normal', caption:'A normal nucleus: intact chromatin, open (vesicular) appearance.', size:60, color:'#B98CA6', count:1},
+  {key:'pyk', label:'Pyknosis', caption:'<b>Pyknosis</b>: nuclear shrinkage and increased basophilia — the DNA condenses into a solid, shrunken mass.', size:32, color:'#4F1935', count:1},
+  {key:'kar', label:'Karyorrhexis', caption:'<b>Karyorrhexis</b>: the pyknotic nucleus undergoes fragmentation.', size:12, color:'#4F1935', count:5},
+  {key:'lys', label:'Karyolysis', caption:'<b>Karyolysis</b>: chromatin basophilia fades, secondary to DNase activity — the nucleus dissolves.', size:10, color:'#C9A9BC', count:5},
+];
+const nucStepRow = document.getElementById('nucSteps');
+const nucStage = document.getElementById('nucStage');
+const nucCaption = document.getElementById('nucCaption');
+function renderNuc(key){
+  const s = nucSteps.find(x=>x.key===key);
+  document.querySelectorAll('.step-btn').forEach(b=>b.classList.toggle('active', b.dataset.key===key));
+  nucStage.innerHTML='';
+  for(let i=0;i<s.count;i++){
+    const d=document.createElement('div');
+    d.className='nuc';
+    d.style.width=s.size+'px'; d.style.height=s.size+'px'; d.style.background=s.color;
+    d.style.opacity = key==='lys' ? 0.45 : 1;
+    nucStage.appendChild(d);
+  }
+  nucCaption.innerHTML = s.caption;
+}
+nucSteps.forEach(s=>{
+  const b=document.createElement('button');
+  b.className='step-btn'; b.dataset.key=s.key; b.textContent=s.label;
+  b.addEventListener('click',()=>renderNuc(s.key));
+  nucStepRow.appendChild(b);
+});
+renderNuc('normal');
+
+/* ============================================================
+   APOPTOSIS STEPPER
+============================================================ */
+const apopSteps = [
+  {t:'Normal cell', c:'Healthy cell, intact nucleus, no stress signal.', blobs:[{s:56}]},
+  {t:'Cell shrinkage / chromatin condensation', c:'The cell shrinks; chromatin condenses against the nuclear membrane.', blobs:[{s:40}]},
+  {t:'Membrane blebbing', c:'The plasma membrane balloons outward into blebs, while organelles remain intact.', blobs:[{s:34},{s:12},{s:10}]},
+  {t:'Nuclear collapse, continued blebbing', c:'The nucleus collapses further as blebbing continues.', blobs:[{s:26},{s:14},{s:12},{s:10}]},
+  {t:'Apoptotic body formation', c:'Fragments break off into membrane-bound apoptotic bodies — this is where the name "apoptosis" (falling off) comes from.', blobs:[{s:16},{s:14},{s:12},{s:10},{s:8}]},
+  {t:'Phagocytosis — no inflammation', c:'Apoptotic bodies are phagocytosed by neighboring cells or macrophages. Unlike necrosis, there is <b>no inflammatory reaction</b>.', blobs:[{s:20,teal:true},{s:8},{s:8},{s:6}]},
+];
+let apopIdx=0;
+const apopCell=document.getElementById('apopCell');
+const apopCaption=document.getElementById('apopCaption');
+const apopDots=document.getElementById('apopDots');
+apopSteps.forEach((_,i)=>{
+  const d=document.createElement('span'); apopDots.appendChild(d);
+});
+function renderApop(){
+  const s=apopSteps[apopIdx];
+  apopCell.innerHTML='';
+  s.blobs.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='blob';
+    el.style.width=b.s+'px'; el.style.height=b.s+'px';
+    if(b.teal) el.style.background='var(--amber)';
+    apopCell.appendChild(el);
+  });
+  apopCaption.innerHTML = `<b>${s.t}</b><br>${s.c}`;
+  [...apopDots.children].forEach((d,i)=>d.classList.toggle('on', i===apopIdx));
+  document.getElementById('apopPrev').disabled = apopIdx===0;
+  document.getElementById('apopNext').disabled = apopIdx===apopSteps.length-1;
+}
+document.getElementById('apopPrev').addEventListener('click',()=>{ if(apopIdx>0){apopIdx--; renderApop();} });
+document.getElementById('apopNext').addEventListener('click',()=>{ if(apopIdx<apopSteps.length-1){apopIdx++; renderApop();} });
+renderApop();
+
+/* ============================================================
+   NECROSIS vs APOPTOSIS TABLE
+============================================================ */
+const cmpRows = [
+  ['Cell size','Enlarged (swelling)','Reduced (shrinkage)'],
+  ['Nucleus','Pyknosis → karyorrhexis → karyolysis','Fragmentation into nucleosome-size fragments'],
+  ['Plasma membrane','Disrupted','Intact, though lipid orientation is altered'],
+  ['Cellular contents','Enzymatic digestion; may leak out of the cell','Intact; may be released inside apoptotic bodies'],
+  ['Adjacent inflammation','Frequent','Absent'],
+  ['Physiologic or pathologic role','Invariably pathologic — the culmination of irreversible injury','Often physiologic (removing unwanted cells); can be pathologic after DNA damage'],
+];
+function renderCmp(mode){
+  document.querySelectorAll('#cmpToggle .tg-btn').forEach(b=>b.classList.toggle('active', b.dataset.show===mode));
+  let head = '<tr><th>Feature</th>';
+  if(mode!=='apoptosis') head+='<th>Necrosis</th>';
+  if(mode!=='necrosis') head+='<th>Apoptosis</th>';
+  head+='</tr>';
+  let body = cmpRows.map(r=>{
+    let row = `<tr><td>${r[0]}</td>`;
+    if(mode!=='apoptosis') row+=`<td class="necro-col">${r[1]}</td>`;
+    if(mode!=='necrosis') row+=`<td class="apop-col">${r[2]}</td>`;
+    row+='</tr>';
+    return row;
+  }).join('');
+  document.getElementById('cmpTable').innerHTML = head+body;
+}
+document.querySelectorAll('#cmpToggle .tg-btn').forEach(b=>{
+  b.addEventListener('click',()=>renderCmp(b.dataset.show));
+});
+renderCmp('both');
+
+/* ============================================================
+   CALCIFICATION ACCORDION
+============================================================ */
+const accRows = [
+  {f:'Definition', d:'Deposits of calcium salts in dead or degenerated tissue.', m:'Deposits of calcium salts in normal tissue.'},
+  {f:'Calcium metabolism', d:'Normal.', m:'Deranged.'},
+  {f:'Serum calcium level', d:'Normal.', m:'Hypercalcemia.'},
+  {f:'Reversibility', d:'Generally irreversible.', m:'Reversible once the metabolic disorder is corrected.'},
+  {f:'Causes', d:'Necrosis (caseous, liquefactive, fat), infarcts, thrombi, hematomas, dead parasites, old scars, atheromas, certain tumors, cysts, calcinosis cutis.', m:'Hyperparathyroidism, bony destructive lesions, prolonged immobilization, hypervitaminosis D, milk-alkali syndrome, hypercalcemia of infancy.'},
+  {f:'Pathogenesis', d:'Increased binding of phosphates with necrotic and degenerative tissue.', m:'Increased calcium-phosphate precipitation from hypercalcemia at sites such as lungs, stomach, blood vessels, and cornea.'},
+];
+const accWrap = document.getElementById('accWrap');
+accRows.forEach((r,i)=>{
+  const item=document.createElement('div');
+  item.className='acc-item';
+  item.innerHTML = `<button class="acc-head">${r.f}<span class="plus">+</span></button>
+    <div class="acc-body"><div class="acc-body-inner">
+      <div><b>Dystrophic —</b> ${r.d}</div>
+      <div><b>Metastatic —</b> ${r.m}</div>
+    </div></div>`;
+  item.querySelector('.acc-head').addEventListener('click',()=>item.classList.toggle('open'));
+  accWrap.appendChild(item);
+});
+
+/* ============================================================
+   TELOMERE SIMULATOR
+============================================================ */
+const teloHeights = [70,70,70];
+let teloStage = 0;
+const teloStates = [
+  {h:[70,70,70], note:'Telomeres shorten with every division because the ends are not fully replaced. Eventually, division stops or the cell dies — one proposed driver of ageing, alongside oxidative stress, hormonal decline, defective host defense, and failure to renew old cells.'},
+  {h:[70,55,70], note:'After one round of replication, the first telomere is already shortened.'},
+  {h:[70,55,40], note:'After a second round, shortening progresses further — the cell edges toward senescence or death.'},
+];
+const teloTrack = document.getElementById('teloTrack');
+function renderTelo(){
+  const st = teloStates[teloStage];
+  teloTrack.innerHTML='';
+  st.h.forEach(h=>{
+    const bar=document.createElement('div');
+    bar.className='telo-bar'; bar.style.height=h+'px';
+    const tip=document.createElement('div'); tip.className='telo-tip';
+    bar.appendChild(tip);
+    teloTrack.appendChild(bar);
+  });
+  document.getElementById('teloNote').textContent = st.note;
+  document.getElementById('teloStep').disabled = teloStage===teloStates.length-1;
+}
+document.getElementById('teloStep').addEventListener('click',()=>{
+  if(teloStage<teloStates.length-1){ teloStage++; renderTelo(); }
+});
+document.getElementById('teloReset').addEventListener('click',()=>{ teloStage=0; renderTelo(); });
+renderTelo();
+
+/* ============================================================
+   CONCEPT MAP
+============================================================ */
+const mapTopics = [
+  {tag:'ADAPT', title:'Adaptations — overview', body:`<p>Reversible changes in the number, size, phenotype, metabolic activity, or function of cells in response to changes in their environment.</p>
+    <ul><li><b>Physiologic adaptations</b> — normal responses to hormones or endogenous chemical mediators, e.g. hormone-driven enlargement of breast and uterus in pregnancy.</li>
+    <li><b>Pathologic adaptations</b> — responses to stress that let cells modulate structure and function to escape injury.</li>
+    <li>Five distinct forms: atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia.</li></ul>`},
+  {tag:'ADAPT', title:'Hypertrophy', body:`<p>An increase in the size of parenchymal cells, enlarging the organ or tissue, without any change in cell number.</p>
+    <p><b>Causes:</b> physiologic or pathologic; either way, driven by increased functional demand or hormonal stimulation.</p>
+    <ul><li>Physiologic: enlarged uterus in pregnancy (hypertrophy and hyperplasia together).</li>
+    <li>Pathologic — cardiac muscle: cardiovascular disease.</li>
+    <li>Pathologic — smooth muscle: cardiac achalasia, pyloric stenosis, intestinal strictures, muscular arteries in hypertension.</li>
+    <li>Pathologic — skeletal muscle: athletes and manual laborers.</li>
+    <li>Compensatory hypertrophy: e.g. after nephrectomy, the remaining kidney undergoes compensatory hypertrophy and hyperplasia of nephrons.</li></ul>`},
+  {tag:'ADAPT', title:'Hyperplasia', body:`<p>An increase in the number of parenchymal cells, enlarging the organ or tissue. Hyperplasia and hypertrophy often occur together, from increased recruitment of cells out of G0 (resting) into mitosis.</p>
+    <p>Only <b>labile cells</b> (epithelium of skin/mucous membranes, bone marrow, lymph nodes) and <b>stable cells</b> (liver, pancreas, kidney, adrenal, thyroid parenchyma) can undergo hyperplasia. <b>Permanent cells</b> (neurons, cardiac and skeletal muscle) have little to no regenerative hyperplastic capacity.</p>
+    <p><b>A. Physiologic hyperplasia</b></p>
+    <ul><li>Hormonal — breast hyperplasia at puberty, pregnancy, lactation; hyperplasia of the pregnant uterus; proliferative endometrium after a normal menstrual cycle.</li>
+    <li>Compensatory — liver regeneration after partial hepatectomy; epidermal regeneration after skin abrasion; nephron hyperplasia after nephrectomy.</li></ul>
+    <p><b>B. Pathologic hyperplasia</b> — usually from excess hormone or growth-factor stimulation: endometrial hyperplasia from estrogen excess; granulation tissue (fibroblast/endothelial proliferation) in wound healing; prostatic hyperplasia in old age.</p>
+    <p><b>Morphology:</b> enlarged organ/tissue with more cells, from increased DNA synthesis and mitoses.</p>`},
+  {tag:'ADAPT', title:'Metaplasia', body:`<p>A reversible change of one type of adult epithelial or mesenchymal cell to another type of adult epithelial or mesenchymal cell, usually in response to abnormal stimuli. It often reverts to normal once the stimulus is removed.</p>
+    <p>If the stimulus persists, <b>epithelial metaplasia may progress to dysplasia, and further into cancer.</b> Broadly divided into epithelial and mesenchymal metaplasia.</p>
+    <ul><li><b>Squamous metaplasia:</b> replacement of another epithelium by squamous epithelium — e.g. bronchial columnar epithelium replaced by squamous epithelium in cigarette smokers.</li>
+    <li><b>Osseous metaplasia:</b> replacement of connective tissue by bone, e.g. at sites of injury.</li></ul>`},
+  {tag:'ADAPT', title:'Dysplasia', body:`<p>An alteration in cell growth resulting in cells that differ in size, shape, and appearance, often from chronic irritation. There is loss of normal architecture (cell arrangement), and it can lead to neoplasia.</p>
+    <p><b>Morphologic features:</b></p>
+    <ul><li>Increased number of layers of epithelial cells.</li>
+    <li>Disorderly arrangement of cells from the basal layer to the surface layer.</li>
+    <li>Loss of basal polarity — nuclei lying away from the basement membrane.</li>
+    <li>Cellular and nuclear pleomorphism.</li>
+    <li>Increased nucleocytoplasmic ratio.</li>
+    <li>Nuclear hyperchromatism.</li>
+    <li>Increased mitotic activity.</li></ul>`},
+  {tag:'ADAPT', title:'Ageing', body:`<p>Life expectancy depends on genetic, environmental, lifestyle, and age-related disease factors.</p>
+    <p><b>Hypotheses of ageing:</b></p>
+    <ul><li>Shortening of telomeres without replacement of damaged ends.</li>
+    <li>Persistent oxidative stress — accumulation of free radicals.</li>
+    <li>Hormonal decline.</li>
+    <li>Defective host defenses.</li>
+    <li>Failure to renew old cells.</li></ul>
+    <p>Ageing causes decline in the morphology and function of multiple organs: cardiovascular system, nervous system, muscles, bones, eyes, ears, immune system, and skin.</p>`},
+  {tag:'INJURY', title:'Reversible injury — forms &amp; targets', body:`<p>The two main morphologic correlates of reversible cell injury are <b>cellular swelling</b> and <b>fatty change</b>.</p>
+    <ul><li>Cellular swelling: failure of energy-dependent ion pumps in the plasma membrane, so ionic and fluid homeostasis can no longer be maintained.</li>
+    <li>Fatty change: seen in hypoxic injury and various forms of toxic or metabolic injury; manifests as small or large lipid vacuoles in the cytoplasm.</li></ul>
+    <p><b>Common morphologic forms of reversible injury:</b> hydropic change, hyaline change, mucoid change, fatty change.</p>
+    <p><b>Most important targets of injurious agents:</b></p>
+    <ul><li>Mitochondria — sites of ATP generation.</li>
+    <li>Cell membranes — ionic and osmotic homeostasis.</li>
+    <li>Protein synthesis — ribosomes.</li>
+    <li>The cytoskeleton — microtubules and various filaments.</li>
+    <li>The genetic apparatus — nuclear DNA.</li></ul>
+    <p><b>Morphology:</b> Hydropic swelling is the earliest form of injury — cellular swelling from cytoplasmic vacuoles. Hyaline change is intra- and extracellular deposition of pink, proteinaceous material. Mucoid change is excess deposition of mucinous material in epithelial and connective tissues.</p>`},
+  {tag:'INJURY', title:'Fatty change', body:`<p>The accumulation of triglycerides inside parenchymal cells, from an imbalance between the uptake, utilization, and secretion of fat. Usually seen in the liver, heart, or kidney.</p>
+    <p>Fatty liver (hepatic steatosis) may be caused by alcohol, diabetes mellitus, malnutrition, obesity, and poisonings.</p>
+    <p><b>Mechanisms that cause fat accumulation in hepatocytes:</b></p>
+    <ul><li>Increased uptake of triglycerides into parenchymal cells.</li>
+    <li>Decreased use of fat by cells.</li>
+    <li>Overproduction of fat in cells.</li>
+    <li>Decreased secretion of fat from cells.</li></ul>`},
+  {tag:'INJURY', title:'Accumulation of pigments', body:`<p>Pigments can be exogenous or endogenous, and can accumulate inside cells in different situations.</p>
+    <p><b>A. Endogenous pigments:</b> melanin, melanin-like pigment, hemoprotein-derived pigments (hemosiderin, acid hematin/haemozoin, bilirubin, porphyrins), and lipofuscin (wear-and-tear pigment).</p>
+    <p><b>B. Exogenous pigments:</b> inhaled, ingested, injected (tattooing).</p>
+    <p><b>Melanin</b> — a brownish-black pigment produced by melanocytes in the skin. Increased pigmentation: sun tanning, nevus, malignant melanoma. Decreased pigmentation: albinism, vitiligo.</p>
+    <p><b>Bilirubin</b> — a yellowish pigment, mainly produced during hemoglobin degradation. Excess causes yellowish discoloration of sclerae, mucosae, and internal organs.</p>
+    <p><b>Hemosiderin</b> — an iron-containing pigment derived from ferritin, appearing as golden-brown amorphous aggregates. Normally present in small amounts in macrophages of bone marrow, liver, and spleen as physiologic iron stores; accumulates in excess in certain diseases.</p>`},
+  {tag:'DEATH', title:'Autolysis', body:`<p>Self-digestion — disintegration of the cell by its own hydrolytic enzymes, liberated from lysosomes.</p>
+    <p>Autolysis can occur in the living body when surrounded by an inflammatory reaction (a "vital reaction"), but the term is generally used for a postmortem change, in which there is complete absence of any surrounding inflammatory response.</p>
+    <p><b>Morphologically:</b> homogeneous, eosinophilic cytoplasm with loss of cellular detail, and remnants of the cell as debris.</p>`},
+  {tag:'DEATH', title:'Necrosis — general features', body:`<p>A localized area of tissue death, followed by degradation via hydrolytic enzymes liberated from dead cells; invariably accompanied by an inflammatory reaction.</p>
+    <p>Causes: hypoxia, chemical and physical agents, microbial agents, immunological injury, and others.</p>
+    <p><b>Cytoplasmic changes:</b> increased cytoplasmic eosinophilia (deeper pink than normal), myelin figures, leakage and enzymatic digestion of cellular contents.</p>
+    <p><b>Nuclear changes</b> (from breakdown of DNA and chromatin):</p>
+    <ul><li><b>Pyknosis</b> — nuclear shrinkage and increased basophilia; the DNA condenses into a solid, shrunken mass.</li>
+    <li><b>Karyorrhexis</b> — the pyknotic nucleus undergoes fragmentation.</li>
+    <li><b>Karyolysis</b> — the basophilia of the chromatin fades, secondary to deoxyribonuclease (DNase) activity.</li></ul>`},
+  {tag:'DEATH', title:'Coagulative necrosis', body:`<p>Tissue necrosis in which the component cells are dead but the basic tissue architecture is preserved for at least several days. The affected tissue takes on a firm texture.</p>
+    <p><b>Grossly:</b> pale, firm, slightly swollen early (an "infarct"); with progression, becomes more yellowish, softer, and shrunken.</p>
+    <p><b>Microscopically:</b> the hallmark is the conversion of normal cells into "tombstones" — cell outlines and cell type are still recognizable, but cytoplasmic and nuclear detail is lost. Cells are swollen with more eosinophilic cytoplasm, and show pyknosis, karyorrhexis, and karyolysis; however, cell digestion and liquefaction fail to occur. Eventually the focus is infiltrated by inflammatory cells and the dead cells are phagocytosed, leaving granular debris and cell fragments.</p>`},
+  {tag:'DEATH', title:'Liquefactive necrosis', body:`<p>Seen in focal bacterial, or occasionally fungal, infections — not ischemia — because microbes stimulate the accumulation of inflammatory cells, and leukocyte enzymes digest ("liquefy") the tissue.</p>
+    <p>For obscure reasons, hypoxic death of cells within the central nervous system often also evokes liquefactive necrosis.</p>`},
+  {tag:'DEATH', title:'Caseous necrosis', body:`<p>Caseous (cheese-like) necrosis is found in the center of foci of tuberculous infections. It combines features of both coagulative and liquefactive necrosis.</p>
+    <p><b>Grossly:</b> foci resemble dry cheese — soft, granular, and yellowish.</p>
+    <p><b>Microscopically:</b> the center of the necrotic focus contains structureless eosinophilic material with scattered granular debris of disintegrated nuclei. The surrounding tissue shows a characteristic granulomatous inflammatory reaction: epithelioid cells (modified macrophages with slipper-shaped vesicular nuclei), interspersed Langhans and foreign-body-type giant cells, and a peripheral mantle of lymphocytes.</p>`},
+  {tag:'DEATH', title:'Fat necrosis', body:`<p>Focal areas of fat destruction, typically from release of activated pancreatic lipases into the substance of the pancreas and the peritoneal cavity. This occurs in the calamitous abdominal emergency known as acute pancreatitis.</p>
+    <p><b>Grossly:</b> fat necrosis appears as yellowish-white, firm deposits. Formation of calcium soaps gives the necrotic foci a firmer, chalky-white appearance.</p>`},
+  {tag:'DEATH', title:'Fibrinoid necrosis', body:`<p>A special form of necrosis usually seen in immune reactions involving blood vessels.</p>
+    <p><b>Microscopically:</b> identified by brightly eosinophilic, hyaline-like deposition in the vessel wall. The necrotic focus is surrounded by nuclear debris of neutrophils (leucocytoclasis). Local hemorrhage may occur.</p>`},
+  {tag:'DEATH', title:'Gangrenous necrosis', body:`<p>Although not a distinctive pattern of cell death in itself, the term is still commonly used clinically. It is usually applied to a limb — generally the lower leg — that has lost its blood supply.</p>
+    <ul><li><b>Dry gangrene:</b> coagulative necrosis involving multiple tissue layers.</li>
+    <li><b>Wet gangrene:</b> when bacterial infection is superimposed, coagulative necrosis is modified by the liquefactive action of the bacteria and attracted leukocytes.</li></ul>`},
+  {tag:'DEATH', title:'Apoptosis — causes', body:`<p>Death by apoptosis is a normal (physiologic) phenomenon that eliminates cells no longer needed, or maintains a constant number of cells within a tissue.</p>
+    <p><b>Physiologic situations:</b></p>
+    <ul><li>Removal of supernumerary cells during development — critical for involution of primordial structures and remodeling of maturing tissues.</li>
+    <li>Involution of hormone-dependent tissue on hormone withdrawal — endometrial breakdown during the menstrual cycle, ovarian follicular atresia in menopause, regression of the lactating breast after weaning.</li>
+    <li>Cell turnover in proliferating populations — immature lymphocytes in bone marrow and thymus, and B-lymphocytes in germinal centers that fail to express useful antigen receptors.</li>
+    <li>Elimination of potentially harmful self-reactive lymphocytes, to prevent immune reactions against one's own tissues.</li>
+    <li>Death of host cells that have served their useful purpose — neutrophils in acute inflammation, lymphocytes at the end of an immune response.</li></ul>
+    <p>In all these situations, cells undergo apoptosis because they are deprived of necessary survival signals (growth factors, extracellular matrix contact), or receive pro-apoptotic signals from their surroundings.</p>
+    <p><b>Pathologic situations:</b></p>
+    <ul><li>DNA damage — radiation and cytotoxic anticancer drugs can damage DNA; if repair mechanisms cannot correct the damage, the cell triggers apoptosis. This is protective, preventing survival of cells with mutations that could lead to malignant transformation.</li>
+    <li>Certain infections, particularly viral — from the virus itself (e.g. adenovirus, HIV) or from the host immune response, in which cytotoxic T-lymphocytes specific for viral proteins induce apoptosis of infected cells to eliminate reservoirs of infection.</li></ul>`},
+  {tag:'DEATH', title:'Apoptosis — pathways', body:`<p>A pathway of cell death induced by a tightly regulated suicide program, in which cells destined to die activate enzymes that degrade their own nuclear DNA and nuclear/cytoplasmic proteins. Fragments break off, giving the appearance responsible for the name — apoptosis, "falling off." It is not accompanied by inflammation or collateral tissue damage.</p>
+    <p><b>1. Mitochondrial (intrinsic) pathway</b> is triggered by:</p>
+    <ul><li>Loss of survival signals.</li>
+    <li>DNA damage beyond repair.</li>
+    <li>Accumulation of misfolded proteins — endoplasmic reticulum stress, e.g. ageing, cystic fibrosis, neurodegenerative diseases.</li></ul>
+    <p>All these lead to leakage of pro-apoptotic proteins from the mitochondrial membrane into the cytoplasm, triggering caspase activation — normally inhibited by anti-apoptotic Bcl-family members, which are induced by survival signals including growth factors.</p>
+    <p><b>2. Death receptor (extrinsic) pathway</b> is responsible for elimination of self-reactive lymphocytes and damage by cytotoxic T lymphocytes. It is initiated by engagement of death receptors (members of the tumor necrosis factor (TNF) receptor family) by ligands on adjacent cells.</p>`},
+  {tag:'CALC', title:'Dystrophic calcification', body:`<p>Pathologic calcification is the abnormal deposition of calcium salts, together with smaller amounts of iron, magnesium, and other minerals, in tissue.</p>
+    <p>Dystrophic calcification is encountered in areas of necrosis of any type. It mostly indicates insignificant past cell injury, but may also cause organ dysfunction — for example, calcification can develop in aging or damaged heart valves, resulting in severely compromised valve motion. Dystrophic calcification of the aortic valves is an important cause of aortic stenosis in the elderly.</p>`},
+  {tag:'CALC', title:'Metastatic calcification', body:`<p>Can occur in normal tissues whenever there is hypercalcemia. The four major causes of hypercalcemia are:</p>
+    <ul><li>Increased secretion of parathyroid hormone — from primary parathyroid tumors or PTH-related protein produced by other malignant tumors.</li>
+    <li>Destruction of bone — from accelerated turnover (e.g. Paget disease), immobilization, or tumors (increased bone catabolism from multiple myeloma, leukemia, or diffuse skeletal metastases).</li>
+    <li>Vitamin D–related disorders — vitamin D intoxication, and sarcoidosis (in which macrophages activate a vitamin D precursor).</li>
+    <li>Renal failure — phosphate retention leads to secondary hyperparathyroidism.</li></ul>
+    <p>Metastatic calcification can occur widely throughout the body but principally affects the interstitial tissues of the vasculature, kidneys, lungs, and gastric mucosa. The deposits morphologically resemble those of dystrophic calcification. Although they usually do not cause clinical dysfunction, extensive pulmonary calcification may produce notable radiographic findings and respiratory deficits, and deposits in the kidney (nephrocalcinosis) can cause renal failure.</p>`},
+];
+const mapList = document.getElementById('mapList');
+const mapPanel = document.getElementById('mapPanel');
+mapTopics.forEach((t,i)=>{
+  const btn=document.createElement('button');
+  btn.className='map-item'; btn.dataset.i=i;
+  btn.innerHTML = `<span>${t.title}</span><span class="tag">${t.tag}</span>`;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.map-item').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    mapPanel.innerHTML = `<h3>${t.title}</h3><div class="body">${t.body}</div>`;
+  });
+  mapList.appendChild(btn);
+});
+
+/* ============================================================
+   FLASH CARDS
+============================================================ */
+const flashcards = [
+  {f:'Definition of adaptation', b:'A reversible change in the number, size, phenotype, metabolic activity, or function of a cell in response to its environment.'},
+  {f:'Physiologic vs pathologic adaptation', b:'Physiologic = normal response to hormones/mediators. Pathologic = response to stress that lets the cell escape injury.'},
+  {f:'The five forms of adaptation', b:'Atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia.'},
+  {f:'Hypertrophy — definition', b:'Increase in the size of parenchymal cells, enlarging the organ, with no change in cell number.'},
+  {f:'Hyperplasia — definition', b:'Increase in the number of parenchymal cells, enlarging the organ or tissue.'},
+  {f:'Which cell types cannot undergo hyperplasia?', b:'Permanent cells — neurons, cardiac muscle, and skeletal muscle.'},
+  {f:'Labile and stable cell examples', b:'Labile: skin/mucosal epithelium, bone marrow, lymph nodes. Stable: liver, pancreas, kidney, adrenal, thyroid.'},
+  {f:'Metaplasia — definition', b:'A reversible change of one adult cell type to another, usually in response to an abnormal stimulus.'},
+  {f:'Classic example of squamous metaplasia', b:'Bronchial columnar epithelium replaced by squamous epithelium in cigarette smokers.'},
+  {f:'What can metaplasia progress to if the stimulus persists?', b:'Dysplasia, and further into cancer.'},
+  {f:'Dysplasia — definition', b:'Altered cell growth producing cells that differ in size, shape, and appearance, with loss of normal architecture.'},
+  {f:'Two morphologic correlates of reversible cell injury', b:'Cellular swelling and fatty change.'},
+  {f:'Why does cellular swelling occur?', b:'Failure of energy-dependent ion pumps in the plasma membrane, disrupting ionic and fluid homeostasis.'},
+  {f:'Four common forms of reversible injury', b:'Hydropic change, hyaline change, mucoid change, fatty change.'},
+  {f:'Five key targets of injurious agents', b:'Mitochondria, cell membranes, ribosomes (protein synthesis), the cytoskeleton, and nuclear DNA.'},
+  {f:'Organs typically affected by fatty change', b:'Liver, heart, kidney.'},
+  {f:'Causes of fatty liver (hepatic steatosis)', b:'Alcohol, diabetes mellitus, malnutrition, obesity, poisonings.'},
+  {f:'Melanin — increased pigmentation seen in', b:'Sun tanning, nevus, malignant melanoma.'},
+  {f:'Melanin — decreased pigmentation seen in', b:'Albinism and vitiligo.'},
+  {f:'Hemosiderin — what is it?', b:'An iron-containing pigment derived from ferritin; normally stored in macrophages of bone marrow, liver, and spleen.'},
+  {f:'Autolysis — definition', b:'Self-digestion of the cell by its own hydrolytic enzymes, liberated from lysosomes; term generally used for postmortem change.'},
+  {f:'Necrosis — definition', b:'Localized tissue death followed by enzymatic degradation, invariably accompanied by inflammation.'},
+  {f:'Order of nuclear changes in necrosis', b:'Pyknosis → karyorrhexis → karyolysis.'},
+  {f:'Coagulative necrosis — hallmark', b:'"Tombstone" cells — outlines preserved, but cytoplasmic and nuclear detail lost; architecture preserved for days.'},
+  {f:'Liquefactive necrosis — typical cause', b:'Bacterial or fungal infection (not ischemia); also hypoxic death of CNS tissue.'},
+  {f:'Caseous necrosis — typical cause and appearance', b:'Tuberculous infection; soft, granular, yellowish "cheese-like" center surrounded by granulomatous inflammation.'},
+  {f:'Fat necrosis — typical cause', b:'Acute pancreatitis, from activated pancreatic lipases.'},
+  {f:'Fibrinoid necrosis — typical setting', b:'Immune reactions involving blood vessel walls.'},
+  {f:'Dry vs wet gangrene', b:'Dry = coagulative necrosis alone. Wet = coagulative necrosis plus liquefaction from superimposed bacterial infection.'},
+  {f:'Apoptosis — definition', b:'A regulated "suicide" program of cell death, without inflammation or collateral tissue damage.'},
+  {f:'The two apoptosis pathways', b:'Mitochondrial (intrinsic) pathway and death receptor (extrinsic) pathway.'},
+  {f:'Intrinsic pathway triggers', b:'Loss of survival signals, unrepairable DNA damage, accumulation of misfolded proteins (ER stress).'},
+  {f:'Extrinsic pathway — what activates it?', b:'Engagement of TNF-family death receptors by ligands on adjacent cells.'},
+  {f:'Necrosis vs apoptosis — cell size', b:'Necrosis: enlarged (swelling). Apoptosis: reduced (shrinkage).'},
+  {f:'Necrosis vs apoptosis — inflammation', b:'Necrosis: frequent inflammation. Apoptosis: none.'},
+  {f:'Dystrophic calcification — definition', b:'Calcium deposition in necrotic or degenerated tissue, with normal serum calcium.'},
+  {f:'Metastatic calcification — definition', b:'Calcium deposition in normal tissue, driven by hypercalcemia.'},
+  {f:'Four major causes of hypercalcemia', b:'Increased PTH secretion, bone destruction, vitamin D–related disorders, renal failure.'},
+  {f:'Ageing — five proposed hypotheses', b:'Telomere shortening, oxidative stress, hormonal decline, defective host defense, failure to renew old cells.'},
+];
+let fcOrder = flashcards.map((_,i)=>i);
+const fcGrid = document.getElementById('fcGrid');
+document.getElementById('fcCount').textContent = flashcards.length + ' cards';
+function renderCards(){
+  fcGrid.innerHTML='';
+  fcOrder.forEach(i=>{
+    const c=flashcards[i];
+    const el=document.createElement('div');
+    el.className='fc-card';
+    el.innerHTML = `<div class="fc-inner">
+      <div class="fc-face fc-front">${c.f}<span class="k">click to flip</span></div>
+      <div class="fc-face fc-back">${c.b}</div>
+    </div>`;
+    el.addEventListener('click',()=>el.classList.toggle('flipped'));
+    fcGrid.appendChild(el);
+  });
+}
+document.getElementById('fcShuffle').addEventListener('click',()=>{
+  for(let i=fcOrder.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];
+  }
+  renderCards();
+});
+renderCards();
+
+/* ============================================================
+   QUIZ BANK
+============================================================ */
+const quizData = [
+  {q:'What best defines cellular adaptation?', options:['A reversible change in cell number, size, phenotype, metabolism, or function in response to the environment','An irreversible loss of cell structure','A permanent genetic mutation','A form of programmed cell death']},
+  {q:'Which is an example of physiologic hypertrophy?', options:['Enlargement of the pregnant uterus','Cardiac hypertrophy in hypertension','Pyloric stenosis','Athlete skeletal muscle enlargement']},
+  {q:'Hyperplasia occurs mainly by recruiting cells from which phase into mitosis?', options:['G0 (resting) phase','S phase','M phase','G2 phase']},
+  {q:'Which cell type CANNOT undergo hyperplasia?', options:['Cardiac muscle (permanent cell)','Skin epithelium (labile cell)','Liver parenchyma (stable cell)','Bone marrow cells (labile cell)']},
+  {q:'Compensatory hyperplasia of the kidney classically occurs after which procedure?', options:['Nephrectomy of the contralateral kidney','Partial hepatectomy','Skin abrasion','Splenectomy']},
+  {q:'Metaplasia is best described as which of the following?', options:['A reversible change of one adult cell type into another adult cell type','An irreversible malignant transformation','Loss of cell number in an organ','Increase in cell size only']},
+  {q:'Bronchial columnar epithelium turning into squamous epithelium in smokers is an example of what?', options:['Squamous metaplasia','Osseous metaplasia','Dysplasia','Fatty change']},
+  {q:'If the stimulus causing metaplasia persists, epithelial metaplasia may progress toward which sequence?', options:['Dysplasia, then cancer','Immediate necrosis','Hypertrophy','Autolysis']},
+  {q:'Which feature is NOT part of the morphology of dysplasia?', options:['Preserved basal polarity of nuclei','Increased nucleocytoplasmic ratio','Nuclear hyperchromatism','Increased mitotic activity']},
+  {q:'What are the two main morphologic correlates of reversible cell injury?', options:['Cellular swelling and fatty change','Pyknosis and karyolysis','Apoptosis and autolysis','Metaplasia and dysplasia']},
+  {q:'Cellular swelling in reversible injury is mainly caused by failure of what?', options:['Energy-dependent ion pumps in the plasma membrane','Mitochondrial DNA replication','Lysosomal enzyme release','Nuclear pore transport']},
+  {q:'Which of these is NOT one of the four common morphologic forms of reversible injury?', options:['Karyorrhexis','Hydropic change','Hyaline change','Mucoid change']},
+  {q:'Which organelle is described as the site of ATP generation and a key target of injurious agents?', options:['Mitochondria','Golgi apparatus','Peroxisome','Nucleolus']},
+  {q:'Fatty change (steatosis) is most typically seen in which organs?', options:['Liver, heart, and kidney','Skin, bone, and cartilage','Brain and spinal cord only','Lung and pleura only']},
+  {q:'Which of the following is NOT a listed cause of fatty liver?', options:['Iron-deficiency anemia','Alcohol','Diabetes mellitus','Obesity']},
+  {q:'Which mechanism can cause fat accumulation in hepatocytes?', options:['Decreased secretion of fat from the cell','Increased mitochondrial number','Increased protein synthesis','Decreased triglyceride uptake']},
+  {q:'Increased melanin pigmentation is seen in which condition?', options:['Malignant melanoma','Albinism','Vitiligo','Jaundice']},
+  {q:'Decreased melanin pigmentation is characteristic of which condition?', options:['Vitiligo','Malignant melanoma','Nevus','Sun tanning']},
+  {q:'Hemosiderin is derived from which precursor?', options:['Ferritin','Bilirubin','Melanin','Collagen']},
+  {q:'Excess accumulation of bilirubin causes yellowish discoloration mainly of what?', options:['Sclerae, mucosae, and internal organs','Only the fingernails','Only skeletal muscle','Only the cornea']},
+  {q:'Which term describes cell self-digestion by its own lysosomal enzymes, typically used for a postmortem change?', options:['Autolysis','Apoptosis','Karyorrhexis','Metaplasia']},
+  {q:'Which sequence correctly describes nuclear changes in necrosis?', options:['Pyknosis → karyorrhexis → karyolysis','Karyolysis → pyknosis → karyorrhexis','Karyorrhexis → karyolysis → pyknosis','Pyknosis → karyolysis → karyorrhexis']},
+  {q:'"Tombstone" appearance of cells, with preserved architecture but lost nuclear/cytoplasmic detail, describes which necrosis?', options:['Coagulative necrosis','Liquefactive necrosis','Caseous necrosis','Fibrinoid necrosis']},
+  {q:'Liquefactive necrosis is classically caused by which of the following?', options:['Bacterial or fungal infection','Coronary artery occlusion alone','Pancreatic autodigestion','Immune complex deposition in vessels']},
+  {q:'Caseous necrosis is most characteristically associated with which infection?', options:['Tuberculosis','Streptococcal cellulitis','Viral hepatitis','Malaria']},
+  {q:'The granulomatous rim around caseous necrosis typically contains which cell type, in addition to lymphocytes?', options:['Epithelioid cells and Langhans giant cells','Adipocytes only','Osteoblasts only','Mast cells only']},
+  {q:'Fat necrosis is classically associated with which condition?', options:['Acute pancreatitis','Chronic gastritis','Pulmonary embolism','Meningitis']},
+  {q:'The chalky-white appearance in fat necrosis results from formation of what?', options:['Calcium soaps','Hemosiderin deposits','Melanin granules','Fibrin clots']},
+  {q:'Fibrinoid necrosis is most typically seen in which setting?', options:['Immune reactions involving blood vessel walls','Chronic viral hepatitis','Bone remodeling in Paget disease','Wound healing granulation tissue']},
+  {q:'What is the key difference between dry and wet gangrene?', options:['Wet gangrene has superimposed bacterial infection causing liquefaction','Dry gangrene only affects the upper limb','Wet gangrene is never preceded by ischemia','Dry gangrene always requires amputation immediately']},
+  {q:'Apoptosis is best described as which of the following?', options:['A tightly regulated, programmed pathway of cell death','An unregulated form of cell rupture','Always associated with inflammation','A synonym for necrosis']},
+  {q:'Which of the following is a listed PHYSIOLOGIC cause of apoptosis?', options:['Involution of hormone-dependent tissue after hormone withdrawal','Radiation-induced DNA damage','Viral infection with adenovirus','Cytotoxic anticancer drug exposure']},
+  {q:'Which of the following is a listed PATHOLOGIC cause of apoptosis?', options:['DNA damage beyond repair from radiation or cytotoxic drugs','Menstrual cycle endometrial breakdown','Regression of the lactating breast after weaning','Elimination of self-reactive lymphocytes']},
+  {q:'The mitochondrial (intrinsic) apoptosis pathway is triggered by which of the following?', options:['Accumulation of misfolded proteins (ER stress)','Engagement of TNF-family death receptors','Bacterial toxin release','Excess growth factor signaling']},
+  {q:'The death receptor (extrinsic) apoptosis pathway is initiated by engagement of receptors from which family?', options:['Tumor necrosis factor (TNF) receptor family','Toll-like receptor family','Insulin receptor family','G-protein coupled receptor family']},
+  {q:'Which family of proteins normally inhibits caspase activation, and is induced by survival signals such as growth factors?', options:['Anti-apoptotic Bcl-2 family members','Cyclin-dependent kinases','Matrix metalloproteinases','Heat shock proteins']},
+  {q:'Compared with necrosis, apoptosis is characterized by which of the following?', options:['Cell shrinkage and no surrounding inflammation','Cell swelling and frequent inflammation','Disrupted plasma membrane and enzymatic leakage','Random, non-specific DNA degradation only']},
+  {q:'Dystrophic calcification classically occurs in which setting?', options:['Areas of necrosis, with normal serum calcium','Normal tissue, with hypercalcemia','Only in bone tumors','Only in the thyroid gland']},
+  {q:'Metastatic calcification occurs in normal tissue mainly because of what?', options:['Hypercalcemia','Hypocalcemia','Local tissue necrosis','Chronic inflammation alone']},
+  {q:'Which of the following is NOT a listed major cause of hypercalcemia leading to metastatic calcification?', options:['Iron deficiency','Increased parathyroid hormone secretion','Vitamin D–related disorders','Renal failure']},
+  {q:'Renal failure causes hypercalcemia-driven metastatic calcification chiefly through what mechanism?', options:['Phosphate retention leading to secondary hyperparathyroidism','Direct destruction of the parathyroid gland','Loss of calcitonin secretion','Excess vitamin D excretion']},
+  {q:'Which of these is proposed as a hypothesis of ageing?', options:['Shortening of telomeres without replacement of damaged ends','Increased telomere elongation with each division','Permanent activation of anti-apoptotic Bcl-2 proteins','Overproduction of growth factors in all tissues']},
+];
+
+let quizPool=[]; let quizIdx=0; let quizScore=0;
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function buildQuizPool(){
+  quizPool = shuffle(quizData).map(item=>{
+    const correctText = item.options[0];
+    const opts = shuffle(item.options);
+    return {q:item.q, options:opts, correct: opts.indexOf(correctText)};
+  });
+  quizIdx=0; quizScore=0;
+}
+document.getElementById('quizCountTag').textContent = quizData.length;
+
+function renderQuiz(){
+  const total = quizPool.length;
+  document.getElementById('quizProgressText').textContent = `Question ${Math.min(quizIdx+1,total)} of ${total}`;
+  document.getElementById('quizScoreText').textContent = `Score: ${quizScore}`;
+  document.getElementById('quizBarFill').style.width = (quizIdx/total*100)+'%';
+
+  const card = document.getElementById('quizCard');
+  if(quizIdx>=total){
+    document.getElementById('quizBarFill').style.width = '100%';
+    card.innerHTML = `<div class="quiz-result">
+      <div class="score">${quizScore} / ${total}</div>
+      <p>Answer choices are reshuffled on every attempt.</p>
+      <button id="quizRestart">Retake quiz</button>
+    </div>`;
+    document.getElementById('quizRestart').addEventListener('click',()=>{ buildQuizPool(); renderQuiz(); });
+    return;
+  }
+
+  const item = quizPool[quizIdx];
+  card.innerHTML = `<div class="quiz-q">${item.q}</div>` +
+    item.options.map((o,i)=>`<button class="quiz-opt" data-i="${i}">${o}</button>`).join('') +
+    `<button class="quiz-next" id="quizNextBtn">Next question →</button>`;
+
+  card.querySelectorAll('.quiz-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const chosen = parseInt(btn.dataset.i);
+      card.querySelectorAll('.quiz-opt').forEach(b=>b.classList.add('disabled'));
+      if(chosen===item.correct){
+        btn.classList.add('correct');
+        quizScore++;
+      } else {
+        btn.classList.add('wrong');
+        card.querySelector(`.quiz-opt[data-i="${item.correct}"]`).classList.add('correct');
+      }
+      document.getElementById('quizScoreText').textContent = `Score: ${quizScore}`;
+      document.getElementById('quizNextBtn').style.display='inline-block';
+    });
+  });
+  document.getElementById('quizNextBtn').addEventListener('click',()=>{
+    quizIdx++; renderQuiz();
+  });
+}
+buildQuizPool();
+renderQuiz();
+</script>
+</body>
+</html>
